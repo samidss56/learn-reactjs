@@ -12,3 +12,14 @@ export const getAllProducts = (callback) => {
       console.log(err);
     });
 };
+
+export const getDetailProduct = (id, callback) => {
+  axios
+    .get(`${baseUrl}/products/${id}`)
+    .then((res) => {
+      callback(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
