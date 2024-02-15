@@ -4,7 +4,10 @@ import { legacy_createStore } from "redux";
 
 const cartReducer = (
   state = {
-    cart: [{id: 1, qty: 20}, {id: 2, qty: 10}],
+    cart: [
+      { id: 1, qty: 20 },
+      { id: 2, qty: 10 },
+    ],
   },
   action
 ) => {
@@ -27,10 +30,10 @@ console.log("on create store: ", store.getState());
 // subscribe
 
 store.subscribe(() => {
-    console.log("store changed: ", store.getState());
-})
+  console.log("store changed: ", store.getState());
+});
 
 // dispatch
 
-const action1 = {type: "ADD_TO_CART", payload: {id: 3, qty: 30}};
+const action1 = { type: "ADD_TO_CART", payload: { id: 3, qty: 30 } };
 store.dispatch(action1);
