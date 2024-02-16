@@ -5,19 +5,20 @@ import TableCart from "../components/Fragments/TableCart";
 import { useSelector } from "react-redux";
 import Navbar from "../components/Layouts/Navbar";
 import { DarkMode } from "../context/DarkMode";
+import { useTotalPrice } from "../context/TotalPriceContext";
 
 const ProductsPage = () => {
-  const { isDarkMode, setIsDarkMode } = useContext(DarkMode);
+  const { isDarkMode } = useContext(DarkMode);
   const [products, setProducts] = useState([]);
+  const [totalCart, setTotalCart] = useState(0);
+  const cart = useSelector((state) => state.cart.data);
+  const { total } = useTotalPrice();
 
   useEffect(() => {
     getAllProducts((data) => {
       setProducts(data);
     });
   }, []);
-
-  const [totalCart, setTotalCart] = useState(0);
-  const cart = useSelector((state) => state.cart.data);
 
   useEffect(() => {
     const sum = cart.reduce((acc, item) => {
@@ -31,7 +32,9 @@ const ProductsPage = () => {
       <Navbar />
       <div
         className={`flex justify-center py-5 ${
-          isDarkMode ? "bg-slate-900" : "bg-white"
+          isDarkMode
+            ? "transition-colors bg-slate-900"
+            : "transition-colors bg-white"
         }`}
       >
         <div className="w-4/6 flex flex-wrap">
@@ -48,11 +51,15 @@ const ProductsPage = () => {
         </div>
         <div className="w-2/6">
           <div className="flex gap-5">
-            <h1 className="text-3xl font-bold text-blue-600 text-left ml-5 mb-2">
+            <h1
+              className={`text-3xl font-bold text-blue-600 text-left ml-5 mb-2 ${
+                isDarkMode && "text-white"
+              }`}
+            >
               Your Cart
             </h1>
-            <div className="flex items-center text-white font-bold bg-blue-600 p-2 rounded-md">
-              {totalCart}
+            <div className="flex items-center text-white font-bold bg-blue-600 p-2 rounded-md mb-4">
+              Item : {totalCart} | Price $ {total}
             </div>
           </div>
           <TableCart products={products} />
